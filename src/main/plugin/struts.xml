@@ -1,0 +1,26 @@
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN" "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<package name="bulkupload-default" extends="community-actions" namespace="">
+		<action name="bulk-upload" class="com.liveperson.labs.jive.bulkupload.BulkUploadAction">
+			<interceptor-ref name="paramsPrepareParamsStack"/>
+			<result name="location-input" type="redirect">bulk-upload-choose-container!input.jspa?contentType=102</result>
+			<result name="input">/plugins/bulkupload/resources/upload.ftl</result>
+			<result name="success">/plugins/bulkupload/resources/result.ftl</result>
+		</action>
+		<action name="bulk-upload-choose-container" class="com.jivesoftware.community.action.ChooseContainerAction">
+            <result name="cancel">${refererURL}</result>
+            <result name="input">/plugins/bulkupload/resources/bulk-upload-choose-container.ftl</result>
+            <result name="success" type="redirect">bulk-upload.jspa?containerType=${container.objectType}&amp;containerID=${container.ID}</result>
+        </action>
+        <action name="bulk-document-result" class="com.liveperson.labs.jive.bulkupload.DocumentResultAction">
+        	<result name="error" type="stream">
+			    <param name="contentType">text/plain</param>
+			    <param name="inputName">response</param>
+			</result>
+			<result name="success" type="stream">
+			    <param name="contentType">text/plain</param>
+			    <param name="inputName">response</param>
+			</result>
+        </action>
+	</package>
+</struts>
